@@ -1,6 +1,8 @@
 const maze = document.getElementById("maze");
-let playerPosition = { x: 2, y: 2 }; // 플레이어 시작 위치
+let playerPosition = { x: 4, y: 4 }; // 플레이어 시작 
+let applePosition = { x: 3, y: 2 }; // 사과 위치
 const targetPosition = { x: 0, y: 0 }; // 목표 위치
+const rockPosition = { x: 4, y: 2 }; // 바위 위치
 
 function drawMaze() {
     maze.innerHTML = ''; 
@@ -28,39 +30,66 @@ function drawMaze() {
                 cell.appendChild(target);
             }
 
+            // 사과 위치에 사과 요소 추가
+            if (applePosition && applePosition.x === j && applePosition.y === i) {
+                const apple = document.createElement('div');
+                apple.className = 'apple';
+                cell.appendChild(apple);
+            }
+
+            // 바위 위치에 바위 요소 추가
+            if (rockPosition.x === j && rockPosition.y === i) {
+                const rock = document.createElement('div');
+                rock.className = 'rock';
+                cell.appendChild(rock);
+            }
+
             maze.appendChild(cell);
         }
     }
 }
 
-
 function movePlayer(direction, number) {
     const numberOfSteps = parseInt(number, 10);
-    console.log(`Moving player ${numberOfSteps} steps to the ${direction}`);
-    for (let i = 0; i < numberOfSteps; i++) {
-        switch (direction) {
-            case 'left':
-                if (playerPosition.x > 0) playerPosition.x--;
-                break;
-            case 'right':
-                if (playerPosition.x < 4) playerPosition.x++;
-                break;
-            case 'up':
-                if (playerPosition.y > 0) playerPosition.y--;
-                break;
-            case 'down':
-                if (playerPosition.y < 4) playerPosition.y++;
-                break;
+    console.log(`받아온 방향과 숫자: ${numberOfSteps} steps to the ${direction}`);
+    switch (direction) {
+        case 'left':
+            if (playerPosition.x > 0) {
+                playerPosition.x -= numberOfSteps
+            }
+            break;
+        case 'right':
+            if (playerPosition.x < 4) {
+                playerPosition.x += numberOfSteps
+            }
+            break;
+        case 'up':
+            if (playerPosition.y > 0) {
+                playerPosition.y -= numberOfSteps
+            }
+            break;
+        case 'down':
+            if (playerPosition.y < 4) {
+                playerPosition.x += numberOfSteps
+            }
+            break;
         }
-    }
-    console.log(`New player position: (${playerPosition.x}, ${playerPosition.y})`);
-    drawMaze();
+    eatApple();
+    console.log(`캐릭터 위치: : (${playerPosition.x}, ${playerPosition.y})`);
+    drawMaze(); // 최종 위치를 화면에 표시 
 }
+
+function eatApple() {
+    if (applePosition && playerPosition.x === applePosition.x && playerPosition.y === applePosition.y) {
+        applePosition = null;
+    }
+}
+
+
 
 // MAP 그림 
 window.onload = drawMaze;
 
-// 서버로부터 받은 방향과 숫자만큼 움직임 
 async function getDirectionFromServer() {
     try {
         console.log('Requesting direction from server...');
@@ -70,10 +99,10 @@ async function getDirectionFromServer() {
         if (data.direction && data.number) {
             movePlayer(data.direction, data.number);
         } else {
-            console.log('Missing direction or number in response');
+            console.log('[문제발생] 방향과 숫자가 이상함');
         }
     } catch (error) {
-        console.error('Error fetching direction:', error);
+        console.error('Error:', error);
     }
 }
 

@@ -1,0 +1,65 @@
+/* 캔버스 설정 */
+/* 그리드 기반 (네모칸) */
+.grid {
+    display: grid; 
+    /* 5 x 5 (네모칸 사이즈는 정사각형) */
+    grid-template-columns: repeat(5, 121.5px);
+    grid-template-rows: repeat(5, 121.5px);
+}
+/* 셀 (네모칸) */
+.cell {
+    position: relative;
+    width: 121.5px;
+    height: 121.5px;
+    border: 1px solid black;
+    background-image: url('https://github.com/chunjae-Big-4/Coding-Educational-Kit-Project/blob/main/img/%EA%B8%B8.png?raw=true'); /* 이미지 경로 */
+    background-size: cover;
+    background-position: center;
+}
+.player {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    width: 90%; 
+    height: 90%; 
+    background-image: url('https://github.com/chunjae-Big-4/Coding-Educational-Kit-Project/blob/main/img/%EB%B3%B4%EB%8B%88.png?raw=true');
+    background-size: cover;
+    background-position: center;
+    background-color: transparent;
+    z-index: 10; 
+    transform: translate(-50%, -50%);
+}
+.target {
+    background-image: url('https://github.com/chunjae-Big-4/Coding-Educational-Kit-Project/blob/main/img/%EB%8F%84%EC%B0%A9%EC%A7%802.png?raw=true');
+    background-color: red; /* 이미지 로드 실패시 빨간색으로 표시 */
+    width: 100%; 
+    height: 100%; 
+    background-size: cover;
+    background-position: center;
+}
+.apple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%; 
+    height: 30%; 
+    background-image: url('https://github.com/chunjae-Big-4/Coding-Educational-Kit-Project/blob/main/img/%EC%82%AC%EA%B3%BC.png?raw=true');
+    background-size: cover;
+    background-position: center;
+    background-color: transparent;
+    z-index: 10; 
+    transform: translate(-50%, -50%);
+  }  
+  .rock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%; 
+    height: 90%; 
+    background-image: url('https://github.com/chunjae-Big-4/Coding-Educational-Kit-Project/blob/main/img/%EB%B0%94%EC%9C%842.png?raw=true');
+    background-size: cover;
+    background-position: center;
+    background-color: transparent;
+    z-index: 10; 
+    transform: translate(-50%, -50%);
+  }  
