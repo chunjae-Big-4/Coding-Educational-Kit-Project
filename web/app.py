@@ -22,7 +22,7 @@ def receive_direction():
     number = data.get('number')  # 'number' 값을 받음
     current_direction = direction  # 받은 방향 저장
     current_number = number  # 받은 number 저장
-    print(f"Received direction: {direction} and number: {number}")
+    print(f"받은 방향: {direction}, 받은 숫자: {number}")
     return jsonify({'status': 'success', 'direction': direction, 'number': number})
 
 @app.route('/get-direction', methods=['GET'])

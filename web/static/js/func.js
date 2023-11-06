@@ -3,7 +3,41 @@ let playerPosition = { x: 4, y: 4 }; // 플레이어 시작
 let applePosition = { x: 3, y: 2 }; // 사과 위치
 const rockPosition = { x: 4, y: 2 }; // 바위 위치
 const targetPosition = { x: 0, y: 0 }; // 목표 위치
+let score = 0; // 점수
+let moveCount = 0; // 이동 횟수
+let isGameOver = false; // 종료를 위한 체크 
 
+// 이동 점수 시스템 
+function updateScore(points) {
+    // points가 숫자인지 확인
+    if (typeof points !== 'number' || isNaN(points)) {
+        console.error('잘못된 점수 입력:', points);
+        return;
+    }
+
+    score += points;
+    document.getElementById('scoreboard').innerText = `점수: ${score}`;
+}
+
+// 이동횟수 카운트 
+function updateMoveCount() {
+    document.getElementById('moveCount').innerText = `이동 횟수: ${moveCount}`;
+}
+
+// 추가 보너스 점수 시스템 
+function checkGameState() {
+    if (applePosition && playerPosition.x === applePosition.x && playerPosition.y === applePosition.y) {
+        updateScore(5); // 사과를 먹으면 5점 추가
+        applePosition = null; // 사과가 먹혔으니 위치를 null로 설정
+
+        applePopup();
+    }
+    // 목표 지점에 도달했는지 체크
+    if (playerPosition.x === targetPosition.x && playerPosition.y === targetPosition.y) {
+        updateScore(10); // 목표 지점에 도착하면 10점 추가
+        // 여기에 게임을 재시작하거나 다음 레벨로 진행하는 로직을 추가 예정 
+    }
+}
 
 function drawMaze() {
     maze.innerHTML = ''; 
@@ -53,29 +87,68 @@ function drawMaze() {
 function movePlayer(direction, number) {
     const numberOfSteps = parseInt(number, 10);
     console.log(`받아온 방향과 숫자: ${numberOfSteps} steps to the ${direction}`);
+
+    // 움직이기 전의 위치 저장 
+    const originalX = playerPosition.x;
+    const originalY = playerPosition.y;
+
+    // 이동 여부를 판단
+    let validMove = false;
+
+    // 게임이 종료되면 더이상 움직이지 않음 
+    if (isGameOver) {
+        return;
+      }
+
     switch (direction) {
         case 'left':
-            if (playerPosition.x > 0) {
-                playerPosition.x -= numberOfSteps
+            if (playerPosition.x - numberOfSteps >= 0) {
+                playerPosition.x -= numberOfSteps;
+                validMove = true;
             }
+            else roadPopup();
             break;
         case 'right':
-            if (playerPosition.x < 4) {
-                playerPosition.x += numberOfSteps
+            if (playerPosition.x + numberOfSteps <= 4) {
+                playerPosition.x += numberOfSteps;
+                validMove = true;
             }
+            else roadPopup();
             break;
         case 'up':
-            if (playerPosition.y > 0) {
-                playerPosition.y -= numberOfSteps
+            if (playerPosition.y - numberOfSteps >= 0) {
+                playerPosition.y -= numberOfSteps;
+                validMove = true;
             }
+            else roadPopup();
             break;
         case 'down':
-            if (playerPosition.y < 4) {
-                playerPosition.x += numberOfSteps
+            if (playerPosition.y + numberOfSteps <= 4) {
+                playerPosition.y += numberOfSteps;
+                validMove = true;
             }
+            else roadPopup();
             break;
-        }
-    eatApple();
+        default:
+            console.log("잘못된 방향이 인식됨");
+            break;
+    }
+
+    if (validMove) {
+        moveCount += 1; // 이동할 때마다 횟수를 증가
+        updateMoveCount(); // 이동 횟수 업데이트
+        updateScore(-1); // 점수 차감
+    }
+
+    checkGameState();
+
+    // 만약 바위에 부딪히면 원래 위치로 되돌아감
+    if (crashRock()) {  
+        playerPosition.x = originalX;
+        playerPosition.y = originalY;
+        rockPopup();
+    }
+    Target();
     console.log(`캐릭터 위치: : (${playerPosition.x}, ${playerPosition.y})`);
     drawMaze(); // 최종 위치를 화면에 표시 
 }
@@ -90,15 +163,6 @@ function applePopup() {
     }, 3000); 
 }
 
-// 사과 먹는지 검사 
-function eatApple() {
-    if (applePosition && playerPosition.x === applePosition.x && playerPosition.y === applePosition.y) {
-        applePosition = null; 
-
-        applePopup();
-    }
-}
-
 // 장애물 만나면 팝업 띄우기 
 function rockPopup() {
     const r_popup = document.getElementById('rock_popup');
@@ -110,31 +174,36 @@ function rockPopup() {
 }
 
 // 장애물 만났는지 검사 
-function CrashRock() {
+function crashRock() {
     if (rockPosition && playerPosition.x === rockPosition.x && playerPosition.y === rockPosition.y) {
-
-        rockPopup();
+        return true;
     }
+    return false;
 }
 
 // 도착하면 팝업 띄우기
-function Popup() {
+function popup() {
     const popup = document.getElementById('popup');
     popup.style.display = 'block'; 
-
-    setTimeout(function() {
-        popup.style.display = 'none'; 
-    }, 3000); 
 }
 
 // 도착했는지 검사 
 function Target() {
     if (targetPosition && playerPosition.x === targetPosition.x && playerPosition.y === targetPosition.y) {
-
-        Popup();
+        isGameOver = true;
+        popup();
     }
 }
 
+// 막힌길을 만나면 팝업 띄우기
+function roadPopup() {
+    const road_popup = document.getElementById('road_popup');
+    road_popup.style.display = 'block'; 
+
+    setTimeout(function() {
+        road_popup.style.display = 'none'; 
+    }, 3000); 
+}
 
 // MAP 그림 
 window.onload = drawMaze;
