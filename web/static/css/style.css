@@ -84,3 +84,11 @@
   top: 10%; 
   z-index: 100; 
 }
+
+.road_content {
+  display: none; 
+  position: fixed; 
+  left: 25%; 
+  top: 10%; 
+  z-index: 100; 
+}
