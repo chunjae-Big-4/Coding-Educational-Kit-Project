@@ -1,12 +1,10 @@
 /* 캔버스 설정 */
-/* 그리드 기반 (네모칸) */
 .grid {
     display: grid; 
     /* 5 x 5 (네모칸 사이즈는 정사각형) */
     grid-template-columns: repeat(5, 121.5px);
     grid-template-rows: repeat(5, 121.5px);
 }
-/* 셀 (네모칸) */
 .cell {
     position: relative;
     width: 121.5px;
@@ -50,6 +48,13 @@
     z-index: 10; 
     transform: translate(-50%, -50%);
   }  
+  .apple_content {
+    display: none; 
+    position: fixed; 
+    left: 25%; 
+    top: 10%; 
+    z-index: 100; 
+}
   .rock {
     position: absolute;
     top: 50%;
@@ -63,3 +68,19 @@
     z-index: 10; 
     transform: translate(-50%, -50%);
   }  
+
+  .rock_content {
+    display: none; 
+    position: fixed; 
+    left: 25%; 
+    top: 10%; 
+    z-index: 100; 
+}
+
+.target_content {
+  display: none; 
+  position: fixed; 
+  left: 25%; 
+  top: 10%; 
+  z-index: 100; 
+}
