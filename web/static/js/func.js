@@ -1,8 +1,9 @@
 const maze = document.getElementById("maze");
 let playerPosition = { x: 4, y: 4 }; // 플레이어 시작 
 let applePosition = { x: 3, y: 2 }; // 사과 위치
-const targetPosition = { x: 0, y: 0 }; // 목표 위치
 const rockPosition = { x: 4, y: 2 }; // 바위 위치
+const targetPosition = { x: 0, y: 0 }; // 목표 위치
+
 
 function drawMaze() {
     maze.innerHTML = ''; 
@@ -79,12 +80,60 @@ function movePlayer(direction, number) {
     drawMaze(); // 최종 위치를 화면에 표시 
 }
 
+// 사과 먹으면 팝업 띄우기 
+function applePopup() {
+    const a_popup = document.getElementById('apple_popup');
+    a_popup.style.display = 'block'; 
+
+    setTimeout(function() {
+        a_popup.style.display = 'none'; 
+    }, 3000); 
+}
+
+// 사과 먹는지 검사 
 function eatApple() {
     if (applePosition && playerPosition.x === applePosition.x && playerPosition.y === applePosition.y) {
-        applePosition = null;
+        applePosition = null; 
+
+        applePopup();
     }
 }
 
+// 장애물 만나면 팝업 띄우기 
+function rockPopup() {
+    const r_popup = document.getElementById('rock_popup');
+    r_popup.style.display = 'block'; 
+
+    setTimeout(function() {
+        r_popup.style.display = 'none'; 
+    }, 3000); 
+}
+
+// 장애물 만났는지 검사 
+function CrashRock() {
+    if (rockPosition && playerPosition.x === rockPosition.x && playerPosition.y === rockPosition.y) {
+
+        rockPopup();
+    }
+}
+
+// 도착하면 팝업 띄우기
+function Popup() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block'; 
+
+    setTimeout(function() {
+        popup.style.display = 'none'; 
+    }, 3000); 
+}
+
+// 도착했는지 검사 
+function Target() {
+    if (targetPosition && playerPosition.x === targetPosition.x && playerPosition.y === targetPosition.y) {
+
+        Popup();
+    }
+}
 
 
 // MAP 그림 
@@ -92,7 +141,6 @@ window.onload = drawMaze;
 
 async function getDirectionFromServer() {
     try {
-        console.log('Requesting direction from server...');
         const response = await fetch('/get-direction');
         const data = await response.json();
         console.log('Data received from server:', data);
