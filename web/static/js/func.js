@@ -303,6 +303,13 @@ function roadPopup() {
     }, 3000); 
 }
 
+// 다음단계 준비중 팝업 
+function next_popup() {
+    const next_popup = document.getElementById('next_popup');
+    next_popup.style.display = 'block'; 
+}
+  
+
 // MAP 그림 
 window.onload = function() {
     drawMaze();
