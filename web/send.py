@@ -1,21 +1,11 @@
 # send.py
 import requests
-import subprocess
-import ast
 
 server_url = "http://127.0.0.1:5000/send-direction"
 
 while True:
-    subprocess.run('python ../yolov5/camera.py')
-    result = subprocess.run('python ../simple_yolo/detect.py --weights ./best.pt --source ./test.png',
-                            stdout=subprocess.PIPE,
-                            text=True)
-
-    output_list = ast.literal_eval(result.stdout.strip())
-
-    direction = output_list[1]
-    number = output_list[0]
-
+    direction = input('Enter direction (up, down, left, right): ')
+    number = input('Enter number (1, 2, 3): ')
     try:
         response = requests.post(server_url, json={'direction': direction, 'number': number})
         if response.status_code == 200:
