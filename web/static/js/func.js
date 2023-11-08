@@ -3,9 +3,41 @@ let playerPosition = { x: 4, y: 4 }; // 플레이어 시작
 let applePosition = { x: 3, y: 2 }; // 사과 위치
 const rockPosition = { x: 4, y: 2 }; // 바위 위치
 const targetPosition = { x: 0, y: 0 }; // 목표 위치
+// 사이드 길 
+const rightPathPosition = [
+    { x: 4, y: 1 },
+    { x: 4, y: 2 },
+    { x: 4, y: 3 }
+  ];  
+const leftPathPosition = [
+    { x: 0, y: 1 },
+    { x: 0, y: 2 },
+    { x: 0, y: 3 }
+];  
+const downwardPathPosition = [
+    { x: 1, y: 4 },
+    { x: 2, y: 4 },
+    { x: 3, y: 4 }
+];  
+const upwardPathPosition = [
+    { x: 1, y: 0 },
+    { x: 2, y: 0 },
+    { x: 3, y: 0 }
+];  
+// 모퉁이 
+const sidePosition1 = { x: 4, y: 4 }; // 오른쪽 아래
+const sidePosition2 = { x: 0, y: 4 }; // 왼쪽 아래
+const sidePosition3 = { x: 4, y: 0 }; // 오른쪽 위 
+
 let score = 0; // 점수
 let moveCount = 0; // 이동 횟수
-let isGameOver = false; // 종료를 위한 체크 
+let moveCounts = {
+    left: 0,
+    right: 0,
+    up: 0,
+    down: 0
+ };
+let isGameOver = false; // 종료를 위한 체크
 
 // 이동 점수 시스템 
 function updateScore(points) {
@@ -16,12 +48,12 @@ function updateScore(points) {
     }
 
     score += points;
-    document.getElementById('scoreboard').innerText = `점수: ${score}`;
+    document.getElementById('scoreboard').innerText = `${score}`;
 }
 
 // 이동횟수 카운트 
 function updateMoveCount() {
-    document.getElementById('moveCount').innerText = `이동 횟수: ${moveCount}`;
+    document.getElementById('moveCount').innerText = `${moveCount}`;
 }
 
 // 추가 보너스 점수 시스템 
@@ -79,9 +111,71 @@ function drawMaze() {
                 cell.appendChild(rock);
             }
 
+            // 왼쪽 길 위치
+            leftPathPosition.forEach(position => {
+                if (position.x === j && position.y === i) {
+                    const leftPath = document.createElement('div');
+                    leftPath.className = 'left-path'; 
+                    cell.appendChild(leftPath);
+                }
+            });
+            // 오른쪽 길 위치
+            rightPathPosition.forEach(position => {
+                if (position.x === j && position.y === i) {
+                    const rightPath = document.createElement('div');
+                    rightPath.className = 'right-path'; 
+                    cell.appendChild(rightPath);
+                }
+            });
+            // 위쪽 길 위치
+            upwardPathPosition.forEach(position => {
+                if (position.x === j && position.y === i) {
+                    const upwardPath = document.createElement('div');
+                    upwardPath.className = 'upward-path'; 
+                    cell.appendChild(upwardPath);
+                }
+            });
+            // 아래쪽 길 위치
+            downwardPathPosition.forEach(position => {
+                if (position.x === j && position.y === i) {
+                    const downwardPath = document.createElement('div');
+                    downwardPath.className = 'downward-path'; 
+                    cell.appendChild(downwardPath);
+                }
+            });
+
+            // 모퉁이 길 위치 1 
+            if (sidePosition1.x === j && sidePosition1.y === i) {
+                const side1 = document.createElement('div');
+                side1.className = 'side-path-1';
+                cell.appendChild(side1);
+            }
+
+            // 모퉁이 길 위치 2
+            if (sidePosition2.x === j && sidePosition2.y === i) {
+                const side2 = document.createElement('div');
+                side2.className = 'side-path-2';
+                cell.appendChild(side2);
+            }
+
+            // 모퉁이 길 위치 3
+            if (sidePosition3.x === j && sidePosition3.y === i) {
+                const side3 = document.createElement('div');
+                side3.className = 'side-path-3';
+                cell.appendChild(side3);
+            }
+
             maze.appendChild(cell);
         }
     }
+}
+
+// 방향 이동 횟수 카운트
+function updateMoveCounts() {
+    document.getElementById('leftMoves').innerText = moveCounts.left;
+    document.getElementById('rightMoves').innerText = moveCounts.right;
+    document.getElementById('upMoves').innerText = moveCounts.up;
+    document.getElementById('downMoves').innerText = moveCounts.down;
 }
 
 function movePlayer(direction, number) {
@@ -129,14 +223,18 @@ function movePlayer(direction, number) {
             }
             else roadPopup();
             break;
+        case 'none' :
+            console.log("아직 인식되지않음");
         default:
             console.log("잘못된 방향이 인식됨");
             break;
     }
 
     if (validMove) {
+        moveCounts[direction]++; // 해당 방향의 이동 횟수를 증가
         moveCount += 1; // 이동할 때마다 횟수를 증가
-        updateMoveCount(); // 이동 횟수 업데이트
+        updateMoveCounts(); // 이동 횟수 업데이트
+        updateMoveCount(); // 총 이동 횟수 업데이트 
         updateScore(-1); // 점수 차감
     }
 
@@ -206,7 +304,10 @@ function roadPopup() {
 }
 
 // MAP 그림 
-window.onload = drawMaze;
+window.onload = function() {
+    drawMaze();
+    updateMoveCounts();
+};
 
 async function getDirectionFromServer() {
     try {
