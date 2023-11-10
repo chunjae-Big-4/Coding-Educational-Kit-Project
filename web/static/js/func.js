@@ -223,8 +223,6 @@ function movePlayer(direction, number) {
             }
             else roadPopup();
             break;
-        case 'none' :
-            console.log("아직 인식되지않음");
         default:
             console.log("잘못된 방향이 인식됨");
             break;
@@ -308,8 +306,20 @@ function next_popup() {
     const next_popup = document.getElementById('next_popup');
     next_popup.style.display = 'block'; 
 }
-  
 
+// 초기 가이드 화면 닫는 함수 
+document.addEventListener('DOMContentLoaded', (event) => {
+    // 닫기 버튼 요소
+    const closeButton = document.querySelector('.start_popup button');
+  
+    // 닫기 버튼에 클릭 이벤트 리스너를 추가하여 버튼을 누르면 닫히도록 함 
+    closeButton.addEventListener('click', function() {
+      const startPopup = document.querySelector('.start_popup');
+      startPopup.style.display = 'none';
+    });
+  });
+  
+  
 // MAP 그림 
 window.onload = function() {
     drawMaze();
