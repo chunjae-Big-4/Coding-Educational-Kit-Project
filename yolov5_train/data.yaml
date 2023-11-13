@@ -1,0 +1,5 @@
+train: ./img/images/
+val: ./img/images/
+
+nc: 7
+names: ['right', 'left', 'up', 'down', '1', '2', '3']
