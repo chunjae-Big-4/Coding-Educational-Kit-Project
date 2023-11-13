@@ -260,7 +260,7 @@
     position: fixed; 
     position: absolute; 
     left: 50%; 
-    top: 43.5%; 
+    top: 54.5%; 
     transform: translate(-50%, -50%); /* 중앙 정렬 */
     width: 607.5px;
     height: 1080px;
@@ -271,7 +271,7 @@
     position: fixed; 
     position: absolute; 
     left: 50%; 
-    top: 43.5%; 
+    top: 54.5%; 
     transform: translate(-50%, -50%); /* 중앙 정렬 */
     width: 607.5px;
     height: 1080px;
@@ -282,7 +282,7 @@
     position: fixed; 
     position: absolute; 
     left: 50%; 
-    top: 43.5%; 
+    top: 54.5%; 
     transform: translate(-50%, -50%); /* 중앙 정렬 */
     width: 607.5px;
     height: 1080px;
@@ -293,7 +293,7 @@
     position: fixed; 
     position: absolute; 
     left: 50%; 
-    top: 43.5%; 
+    top: 54.5%; 
     transform: translate(-50%, -50%); /* 중앙 정렬 */
     width: 607.5px;
     height: 1080px;
@@ -302,7 +302,7 @@
   
   .retry_content, .new_popup_content {
     position: absolute;
-    top: 60%; 
+    top: 54.5%; 
   }
   
   .retry_content {
