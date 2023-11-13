@@ -26,12 +26,19 @@ def take_picture(event, x, y, flags, param):
         process_image(img_name)
 # 이미지 처리 함수
 def process_image(image_path):
-    result = model(image_path)
-    direction = result.names[int(result.xyxy[0][0][5])]
-    number = result.names[int(result.xyxy[0][1][5])]
-    print(f"{direction}, {number}")
+    try:
+        result = model(image_path)
+        if len(result.xyxy[0]) < 2:  # 검출된 객체가 2개 미만인 경우
+            raise ValueError("객체 인식 실패")
+        direction = result.names[int(result.xyxy[0][0][5])]
+        number = result.names[int(result.xyxy[0][1][5])]
+        print(f"{direction}, {number}")
+    except Exception as e:
+        print(f"인식 오류, 다시 찍어주세요: {e}")
+        # 인식 실패 시, 오류 메시지 출력하고 함수 종료
+        return
 # YOLO 모델 로드
-path = "C:/Users/BIG2-003-008/Desktop/Coding-Educational-Kit-Project/simple_yolo/best.pt"
+path = "../simple_yolo/best.pt"
 model = torch.hub.load('ultralytics/yolov5', 'custom', path, force_reload=False)
 # 한글 폰트 설정
 font_path = 'C:/Windows/Fonts/malgun.ttf'  # 폰트 파일 경로

@@ -2,21 +2,21 @@
 import requests
 import subprocess
 import ast
-
-
 server_url = "http://127.0.0.1:5000/send-direction"
-
-while True:     
+while True:
     result = subprocess.run('python ../simple_yolo/predict.py',
                             stdout=subprocess.PIPE,
-                            text=True)
+          text=True)
     output_list = result.stdout.strip().split(', ')
     direction = output_list[0]
     number = output_list[1]
     try:
         response = requests.post(server_url, json={'direction': direction, 'number': number})
         if response.status_code == 200:
-            print('successfully!')
+            if direction == 'none':
+                print("인식 오류, 다시 찍어주세요")
+            else:
+                print('successfully!')
         else:
             print(f'Failed to send direction: {response.status_code}')
     except requests.exceptions.RequestException as e:
