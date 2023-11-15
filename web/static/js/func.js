@@ -236,6 +236,7 @@ function movePlayer(direction, number) {
             rockPopup();
             drawMaze();
         } else {
+            validMove = true;
             Target();
             drawMaze();
             step++;
