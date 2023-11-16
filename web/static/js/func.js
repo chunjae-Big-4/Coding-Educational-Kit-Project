@@ -207,21 +207,25 @@ function movePlayer(direction, number) {
                 if (playerPosition.x > 0) {
                     playerPosition.x -= 1;
                 }
+                else roadPopup();
                 break;
             case 'right':
                 if (playerPosition.x < 4) {
                     playerPosition.x += 1;
                 }
+                else roadPopup();
                 break;
             case 'up':
                 if (playerPosition.y > 0) {
                     playerPosition.y -= 1;
                 }
+                else roadPopup();
                 break;
             case 'down':
                 if (playerPosition.y < 4) {
                     playerPosition.y += 1;
                 }
+                else roadPopup();
                 break;
             default:
                 console.log("잘못된 방향이 인식됨");
