@@ -21,7 +21,8 @@
 - 아이템은 사과가 있으며 획득하면 5점이 부과된다.
 - 장애물은 지나칠 수 없으며 무조건 우회해야한다.
 
-## 📌 사용자 메뉴얼
+📌 사용자 메뉴얼
 - 저작권으로 인해 캐릭터는 모자이크 처리 했음
+
 ![메뉴얼](https://github.com/chunjae-Big-4/Coding-Educational-Kit-Project/assets/139209756/0b6db4ca-e08b-483c-994e-6ced4aeffa61)
 ![메뉴얼2](https://github.com/chunjae-Big-4/Coding-Educational-Kit-Project/assets/139209756/d7a89829-fc5c-49dc-b4f1-8b23adff542b)
