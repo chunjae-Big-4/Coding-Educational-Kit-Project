@@ -17,16 +17,25 @@ def capture_and_recognize(frame):
 
     try:
         result = model(img_name)  # YOLO 모델을 사용하여 이미지 인식
-        if len(result.xyxy[0]) < 2:  # 인식된 객체가 2개 미만인 경우 오류 발생
+        if len(result.xyxy[0]) != 2:  # 인식된 객체가 2개 미만, 3개 이상인 경우 오류 발생
             raise ValueError("객체 인식 실패")
-        direction = result.names[int(result.xyxy[0][0][5])]  # 첫 번째 객체의 이름 추출
-        number = result.names[int(result.xyxy[0][1][5])]  # 두 번째 객체의 이름 추출
-        
+
+        # 첫 번째 객체가 방향 또는 숫자인지 확인
+        if result.names[int(result.xyxy[0][0][5])] in ['right', 'left', 'up', 'down']:
+            direction = result.names[int(result.xyxy[0][0][5])]
+            number = result.names[int(result.xyxy[0][1][5])]
+        elif result.names[int(result.xyxy[0][0][5])] in ['1', '2', '3']:
+            direction = result.names[int(result.xyxy[0][1][5])]
+            number = result.names[int(result.xyxy[0][0][5])]
+        else:
+            raise ValueError("인식된 객체가 유효하지 않습니다.")
+
         # 서버로 결과 전송
         send_to_server(direction, number)
     except Exception as e:
         print(f"인식 오류, 다시 찍어주세요: {e}")  # 인식 오류 시 메시지 출력
         return
+
 
 # 서버로 결과 전송 함수
 def send_to_server(direction, number):
