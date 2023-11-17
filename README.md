@@ -23,6 +23,7 @@
 
 ## 📌 사용자 메뉴얼
 - 저작권으로 인해 캐릭터는 모자이크 처리 했음
+- 재사용시 SW 라이선스의 파이썬 라이브러리 등을 확인 후 다운로드 후 깃 클론하여 사용하면 됩니다. 다만, 이미지 및 사운드는 제공하지 않으므로 따로 문의하거나 원하는 이미지와 사운드로 교체 후 사용하면 됩니다.
 
 ![메뉴얼](https://github.com/chunjae-Big-4/Coding-Educational-Kit-Project/assets/139209756/0b6db4ca-e08b-483c-994e-6ced4aeffa61)
 ![메뉴얼2](https://github.com/chunjae-Big-4/Coding-Educational-Kit-Project/assets/139209756/d7a89829-fc5c-49dc-b4f1-8b23adff542b)
