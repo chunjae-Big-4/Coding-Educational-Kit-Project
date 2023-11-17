@@ -68,7 +68,6 @@ cap.release()  # 웹캠 자원 해제
 cv2.destroyAllWindows()  # 모든 OpenCV 창 닫기
 
 
-
 # 카메라 없을때 테스트 용 
 # server_url = "http://127.0.0.1:5000/send-direction"
 # while True:
